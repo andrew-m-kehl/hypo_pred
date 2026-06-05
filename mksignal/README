@@ -1,0 +1,7 @@
+Decay
+-----
+amplitude * sin(2 * pi * (t / period) + phase) * exp^(-power * t)
+
+Gauss
+-----
+amplitude * exp^(- (t - centre) / (2 * width^2)) 

@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+4e2daa9333cf068137b65a8add0d68bb stle-cli/Blobs.cpp

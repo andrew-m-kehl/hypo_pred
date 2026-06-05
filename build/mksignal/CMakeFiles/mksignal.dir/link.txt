@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wno-error -Wall -O3 -DNDEBUG -flto=auto -fno-fat-lto-objects CMakeFiles/mksignal.dir/Main.cpp.o -o ../bin/mksignal  ../lib/libstle-static.a 

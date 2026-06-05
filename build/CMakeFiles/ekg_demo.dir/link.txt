@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wno-error -Wall -O3 -DNDEBUG -flto=auto -fno-fat-lto-objects CMakeFiles/ekg_demo.dir/ekg_demo.cpp.o -o bin/ekg_demo  lib/libstle-static.a 

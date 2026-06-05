@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wno-error -Wall -O3 -DNDEBUG -flto=auto -fno-fat-lto-objects "CMakeFiles/stle-cli.dir/Main.cpp.o" "CMakeFiles/stle-cli.dir/Blobs.cpp.o" -o ../bin/stle  ../lib/libstle-static.a 

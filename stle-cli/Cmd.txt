@@ -1,0 +1,50 @@
+Interactive Command Mode
+------------------------
+
+In interactive command mode, 'stle' reads commands from stdin and writes output
+to stdout. A command that does not produce an output value outputs 'ok' in case
+of success. Accepted commands are as follows.
+
+
+(read-signal-csv "<FILE_NAME>")
+
+Read the input from the given file.
+
+
+(eval <FORMULA>)
+
+Evaluate the given formula on the previously read signal. Output the value
+of the formula's output signal at time '0'.
+For the description of formula syntax run `stle help formula`
+
+
+(eval-r <FORMULA>)
+
+Evaluate the robustness of the given formula on the previously read signal.
+Output the robustness at time '0'.
+Only standard STL formulas and 'Lookup' operator are supported.
+
+
+(eval-file "<FILE_NAME>")
+
+Read a formula from the given file and evaluate it.
+
+
+(eval-file-r "<FILE_NAME>")
+
+Read a formula from the given file and evaluate its robustness at time '0'.
+
+
+(clear-monitor) 
+
+Forget the cached output signals.
+
+
+(version)
+
+Output version information.
+
+
+(eof)
+
+Stop reading commands and exit.

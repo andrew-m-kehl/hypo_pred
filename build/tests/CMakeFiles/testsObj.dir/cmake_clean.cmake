@@ -1,0 +1,41 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/testsObj.dir/CStleTests.cpp.o"
+  "CMakeFiles/testsObj.dir/CStleTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/CmdTests.cpp.o"
+  "CMakeFiles/testsObj.dir/CmdTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/CsvReaderTests.cpp.o"
+  "CMakeFiles/testsObj.dir/CsvReaderTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/ExprTests.cpp.o"
+  "CMakeFiles/testsObj.dir/ExprTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/HashTests.cpp.o"
+  "CMakeFiles/testsObj.dir/HashTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/Main.cpp.o"
+  "CMakeFiles/testsObj.dir/Main.cpp.o.d"
+  "CMakeFiles/testsObj.dir/MonitorTests.cpp.o"
+  "CMakeFiles/testsObj.dir/MonitorTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/MurmurHash3.cpp.o"
+  "CMakeFiles/testsObj.dir/MurmurHash3.cpp.o.d"
+  "CMakeFiles/testsObj.dir/RewriteTests.cpp.o"
+  "CMakeFiles/testsObj.dir/RewriteTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/SExprParserTests.cpp.o"
+  "CMakeFiles/testsObj.dir/SExprParserTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/SLexerTests.cpp.o"
+  "CMakeFiles/testsObj.dir/SLexerTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/SeriesTests.cpp.o"
+  "CMakeFiles/testsObj.dir/SeriesTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/SignalTests.cpp.o"
+  "CMakeFiles/testsObj.dir/SignalTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/SignalVarsTests.cpp.o"
+  "CMakeFiles/testsObj.dir/SignalVarsTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/SpaceTests.cpp.o"
+  "CMakeFiles/testsObj.dir/SpaceTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/StrPrinterTests.cpp.o"
+  "CMakeFiles/testsObj.dir/StrPrinterTests.cpp.o.d"
+  "CMakeFiles/testsObj.dir/VersionTests.cpp.o"
+  "CMakeFiles/testsObj.dir/VersionTests.cpp.o.d"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/testsObj.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
