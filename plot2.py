@@ -9,17 +9,10 @@ base_path = os.path.dirname(os.path.abspath(__file__))
 data_path = os.path.join(base_path, "data")
 
 # --- Configuration ---
-#case_name = "case_10_snu"  #HT DN
-case_name = "case_409_snu"  #HT DN
-#case_name = "case_416_snu"
+case_name = "case_10_snu"  #HT DN
 #case_name = "case_6102_snu"  #HT No DN
 #case_name = "case_6280_snu"  #No HT
 
-#case_name = "case_142_snu"
-
-#Real Hypotension
-#case_name = "case_2195_snu"
-#case_name = "case_5293_snu"
 
 file_signal = os.path.join(data_path, f"{case_name}.csv")
 file_combine = os.path.join(data_path, f"{case_name}_combine.csv")
@@ -32,8 +25,8 @@ file_b = "theta3_val.csv"
 file_c = "theta1_val.csv"
 
 # Zoom window (Seconds)
-START_TIME = 4800
-END_TIME = 4805
+START_TIME = 4000
+END_TIME = 4005
 # ==========================================
 # LOADERS
 # ==========================================

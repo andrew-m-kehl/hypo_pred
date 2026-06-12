@@ -10,36 +10,17 @@ pd.set_option('display.max_columns', None)
 base_path = os.path.dirname(os.path.abspath(__file__))
 
 # --- Configuration ---
-#case_name = "case_10_snu"  #HT DN
-#case_name = "case_409_snu"  #HT DN
-#case_name = "case_416_snu"
+case_name = "case_10_snu"  #HT DN
 #case_name = "case_6102_snu"  #HT No DN
-case_name = "case_6280_snu"  #No HT
-
-
-
-#case_name = "case_105_snu"
-#case_name = "case_142_snu"
-#case_name = "case_153_snu"
-
-
-
-#Real Hypotension
-#case_name = "case_2195_snu"
-#case_name = "case_5293_snu"
-
-
-
+#case_name = "case_6280_snu"  #No HT
 
 data_path = os.path.join(base_path, "data")
 file_path = os.path.join(data_path, f"{case_name}.csv")
 print ("Opening: ", file_path)
 df_signal = pd.read_csv(file_path, header=None)
 
-
-
-def generate_dynamic_stls(df):
-    print("Analyzing patient heart rate to generate dynamic STL formulas...")
+def generate_stls(df):
+    print("Analyzing patient heart rate to generate STL formulas...")
     
     # 1. Smooth the signal lightly to find true systolic peaks
     smoothed_pressure = df[1].rolling(window=5, min_periods=1).mean()
@@ -58,19 +39,19 @@ def generate_dynamic_stls(df):
         print("Heartrate: ",heartrate, "bpm")
         print("Beat interval: 1 beat every", round(median_interval,3), "seconds")
         
-    
-    #Until (# Main STL window, 90% of the actual beat interval)
+    # 3. Set Scalers 
+    #Until window.
     w_main = round(median_interval * 0.9, 3)
-    #On (theta1 and theta 2, 40% of beat interval)
+    #On window for theta1 and theta 2.
     w_large = round(median_interval * 0.40, 3) 
-    #On (theta3, 10% of beat interval)
+    #On window for theta3.
     w_small = round(median_interval * 0.10, 3)
     
     print(f"Main Window: {w_main}s")
     print(f"Large Window: +/- {w_large}s")
     print(f"Small Window: +/- {w_small}s")
 
-    # 4. Generate the exact STL syntax with the dynamic variables
+    # 4. Generate the STL formulas with the scaled windows.
     theta1 = f"(>= (On (-{w_large} {w_large}) (Min x0)) x0)"
     theta1_str = f"(Until (0 {w_main}) 0 (Get x0) (>= (On (-{w_large} {w_large}) (Min x0)) x0))"
     theta2 = f"(<= (On (-{w_large} {w_large}) (Max x0)) x0)"
@@ -85,7 +66,6 @@ def generate_dynamic_stls(df):
         (not 
             (>= (On (-{w_large} {w_large}) (Min x0)) x0))))"""
 
-    # 5. Write the files to your directory
     with open("theta1.stl", 'w') as f: f.write(theta1)
     with open("theta1_val.stl", 'w') as f: f.write(theta1_str)
     with open("theta2.stl", 'w') as f: f.write(theta2)
@@ -95,10 +75,9 @@ def generate_dynamic_stls(df):
     
     print("Successfully generated theta1.stl, theta1_val.stl, theta2.stl, theta2_val.stl, theta3.stl and theta3_val.stl")
 
-# ==========================================
-# EXECUTION
+## EXECUTION ##
 
-generate_dynamic_stls(df_signal)
+generate_stls(df_signal)
 
 stle_bin = "./build/bin/stle"
 thetas = ["theta1", "theta2", "theta3", "theta1_val","theta2_val", "theta3_val"]
@@ -142,8 +121,6 @@ k = 0
 l = 0
 avg_sum = 0
 avg_previous = 0
-#pi_bl = 1.7
-#dp_bl = .54
 
 baseline_dp_list = []
 baseline_pi_list = []
@@ -208,44 +185,33 @@ for i in range(sizec):
             
             df_comb.iloc[i, 3] = theta3_value
             df_comb.iloc[i, 5] = round(dp, 3)
-            # -----------------------------------------
-            # 1. BASELINE CALIBRATION PHASE
-            # -----------------------------------------
+
             if pi_bl is None and dp_bl is None:
-                # Ensure MAP > 50 so we don't calibrate on flatlines or sensor noise
                 if map_val > 50 and dp > 0: 
                     baseline_pi_list.append(pi)
                     baseline_dp_list.append(dp)
                     
-                    # Once we hit 60 clean beats, lock in the baselines!
                     if len(baseline_pi_list) == CALIBRATION_BEATS:
                         pi_bl = np.median(baseline_pi_list)
                         dp_bl = np.median(baseline_dp_list)
                         print(f"Resting Baselines at beat {i} -> PI: {round(pi_bl, 3)} | DP: {round(dp_bl, 3)}")
+                        
+                        ## Uncomment this part for hardcoded baseline testing ##
                         # pi_bl = 1.2
                         # dp_bl = 0.1
                         # print(f"Hardcoded Baselines at beat {i} -> PI: {pi_bl} | DP: {dp_bl}")
+                        
                         print ("Computing Delta DP and PI")
             
-            # -----------------------------------------
-            # 2. DELTA CALCULATIONS
-            # -----------------------------------------
-            
             if pi_bl is not None and dp_bl is not None:
-                # Calculate the relative percentages once baselines are established
                 df_comb.iloc[i, 7] = round(100 * (dp - dp_bl) / dp_bl, 3)
                 df_comb.iloc[i, 8] = round(100 * (pi - pi_bl) / pi_bl, 3)
             else:
-                # Output 0.0 while the system is still calibrating the first 60 beats
                 df_comb.iloc[i, 7] = 0.0
                 df_comb.iloc[i, 8] = 0.0
             
-            
-
 output_filename = f"{case_name}_combine.csv"
 output_file_path = os.path.join(data_path, output_filename)
-
 df_comb = df_comb.dropna(subset=[0])
-
 df_comb.to_csv(output_file_path, header=False, index=False)
 print(f"Done! Created {output_file_path}")
